@@ -43,10 +43,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code"
+CMAKE_SOURCE_DIR = /Users/yuniemao/Documents/CS5450/project-1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug"
+CMAKE_BINARY_DIR = /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/starter_code.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/starter_code.dir/flags.make
 
 CMakeFiles/starter_code.dir/echo_client.c.o: CMakeFiles/starter_code.dir/flags.make
 CMakeFiles/starter_code.dir/echo_client.c.o: ../echo_client.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/starter_code.dir/echo_client.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/echo_client.c.o   -c "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_client.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/starter_code.dir/echo_client.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/echo_client.c.o   -c /Users/yuniemao/Documents/CS5450/project-1/echo_client.c
 
 CMakeFiles/starter_code.dir/echo_client.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/starter_code.dir/echo_client.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_client.c" > CMakeFiles/starter_code.dir/echo_client.c.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/yuniemao/Documents/CS5450/project-1/echo_client.c > CMakeFiles/starter_code.dir/echo_client.c.i
 
 CMakeFiles/starter_code.dir/echo_client.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/starter_code.dir/echo_client.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_client.c" -o CMakeFiles/starter_code.dir/echo_client.c.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/yuniemao/Documents/CS5450/project-1/echo_client.c -o CMakeFiles/starter_code.dir/echo_client.c.s
 
 CMakeFiles/starter_code.dir/echo_client.c.o.requires:
 
@@ -81,66 +81,42 @@ CMakeFiles/starter_code.dir/echo_client.c.o.provides: CMakeFiles/starter_code.di
 CMakeFiles/starter_code.dir/echo_client.c.o.provides.build: CMakeFiles/starter_code.dir/echo_client.c.o
 
 
-CMakeFiles/starter_code.dir/echo_server.c.o: CMakeFiles/starter_code.dir/flags.make
-CMakeFiles/starter_code.dir/echo_server.c.o: ../echo_server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/starter_code.dir/echo_server.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/echo_server.c.o   -c "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_server.c"
+CMakeFiles/starter_code.dir/lisod.c.o: CMakeFiles/starter_code.dir/flags.make
+CMakeFiles/starter_code.dir/lisod.c.o: ../lisod.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/starter_code.dir/lisod.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/lisod.c.o   -c /Users/yuniemao/Documents/CS5450/project-1/lisod.c
 
-CMakeFiles/starter_code.dir/echo_server.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/starter_code.dir/echo_server.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_server.c" > CMakeFiles/starter_code.dir/echo_server.c.i
+CMakeFiles/starter_code.dir/lisod.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/starter_code.dir/lisod.c.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/yuniemao/Documents/CS5450/project-1/lisod.c > CMakeFiles/starter_code.dir/lisod.c.i
 
-CMakeFiles/starter_code.dir/echo_server.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/starter_code.dir/echo_server.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_server.c" -o CMakeFiles/starter_code.dir/echo_server.c.s
+CMakeFiles/starter_code.dir/lisod.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/starter_code.dir/lisod.c.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/yuniemao/Documents/CS5450/project-1/lisod.c -o CMakeFiles/starter_code.dir/lisod.c.s
 
-CMakeFiles/starter_code.dir/echo_server.c.o.requires:
+CMakeFiles/starter_code.dir/lisod.c.o.requires:
 
-.PHONY : CMakeFiles/starter_code.dir/echo_server.c.o.requires
+.PHONY : CMakeFiles/starter_code.dir/lisod.c.o.requires
 
-CMakeFiles/starter_code.dir/echo_server.c.o.provides: CMakeFiles/starter_code.dir/echo_server.c.o.requires
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.o.provides.build
-.PHONY : CMakeFiles/starter_code.dir/echo_server.c.o.provides
+CMakeFiles/starter_code.dir/lisod.c.o.provides: CMakeFiles/starter_code.dir/lisod.c.o.requires
+	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/lisod.c.o.provides.build
+.PHONY : CMakeFiles/starter_code.dir/lisod.c.o.provides
 
-CMakeFiles/starter_code.dir/echo_server.c.o.provides.build: CMakeFiles/starter_code.dir/echo_server.c.o
-
-
-CMakeFiles/starter_code.dir/server.c.o: CMakeFiles/starter_code.dir/flags.make
-CMakeFiles/starter_code.dir/server.c.o: ../server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/starter_code.dir/server.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/server.c.o   -c "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/server.c"
-
-CMakeFiles/starter_code.dir/server.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/starter_code.dir/server.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/server.c" > CMakeFiles/starter_code.dir/server.c.i
-
-CMakeFiles/starter_code.dir/server.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/starter_code.dir/server.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/server.c" -o CMakeFiles/starter_code.dir/server.c.s
-
-CMakeFiles/starter_code.dir/server.c.o.requires:
-
-.PHONY : CMakeFiles/starter_code.dir/server.c.o.requires
-
-CMakeFiles/starter_code.dir/server.c.o.provides: CMakeFiles/starter_code.dir/server.c.o.requires
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.o.provides.build
-.PHONY : CMakeFiles/starter_code.dir/server.c.o.provides
-
-CMakeFiles/starter_code.dir/server.c.o.provides.build: CMakeFiles/starter_code.dir/server.c.o
+CMakeFiles/starter_code.dir/lisod.c.o.provides.build: CMakeFiles/starter_code.dir/lisod.c.o
 
 
 CMakeFiles/starter_code.dir/log.c.o: CMakeFiles/starter_code.dir/flags.make
 CMakeFiles/starter_code.dir/log.c.o: ../log.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/starter_code.dir/log.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/log.c.o   -c "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/log.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/starter_code.dir/log.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/starter_code.dir/log.c.o   -c /Users/yuniemao/Documents/CS5450/project-1/log.c
 
 CMakeFiles/starter_code.dir/log.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/starter_code.dir/log.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/log.c" > CMakeFiles/starter_code.dir/log.c.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/yuniemao/Documents/CS5450/project-1/log.c > CMakeFiles/starter_code.dir/log.c.i
 
 CMakeFiles/starter_code.dir/log.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/starter_code.dir/log.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/log.c" -o CMakeFiles/starter_code.dir/log.c.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/yuniemao/Documents/CS5450/project-1/log.c -o CMakeFiles/starter_code.dir/log.c.s
 
 CMakeFiles/starter_code.dir/log.c.o.requires:
 
@@ -156,20 +132,18 @@ CMakeFiles/starter_code.dir/log.c.o.provides.build: CMakeFiles/starter_code.dir/
 # Object files for target starter_code
 starter_code_OBJECTS = \
 "CMakeFiles/starter_code.dir/echo_client.c.o" \
-"CMakeFiles/starter_code.dir/echo_server.c.o" \
-"CMakeFiles/starter_code.dir/server.c.o" \
+"CMakeFiles/starter_code.dir/lisod.c.o" \
 "CMakeFiles/starter_code.dir/log.c.o"
 
 # External object files for target starter_code
 starter_code_EXTERNAL_OBJECTS =
 
 starter_code: CMakeFiles/starter_code.dir/echo_client.c.o
-starter_code: CMakeFiles/starter_code.dir/echo_server.c.o
-starter_code: CMakeFiles/starter_code.dir/server.c.o
+starter_code: CMakeFiles/starter_code.dir/lisod.c.o
 starter_code: CMakeFiles/starter_code.dir/log.c.o
 starter_code: CMakeFiles/starter_code.dir/build.make
 starter_code: CMakeFiles/starter_code.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable starter_code"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable starter_code"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/starter_code.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -178,8 +152,7 @@ CMakeFiles/starter_code.dir/build: starter_code
 .PHONY : CMakeFiles/starter_code.dir/build
 
 CMakeFiles/starter_code.dir/requires: CMakeFiles/starter_code.dir/echo_client.c.o.requires
-CMakeFiles/starter_code.dir/requires: CMakeFiles/starter_code.dir/echo_server.c.o.requires
-CMakeFiles/starter_code.dir/requires: CMakeFiles/starter_code.dir/server.c.o.requires
+CMakeFiles/starter_code.dir/requires: CMakeFiles/starter_code.dir/lisod.c.o.requires
 CMakeFiles/starter_code.dir/requires: CMakeFiles/starter_code.dir/log.c.o.requires
 
 .PHONY : CMakeFiles/starter_code.dir/requires
@@ -189,6 +162,6 @@ CMakeFiles/starter_code.dir/clean:
 .PHONY : CMakeFiles/starter_code.dir/clean
 
 CMakeFiles/starter_code.dir/depend:
-	cd "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/starter_code.dir/DependInfo.cmake" --color=$(COLOR)
+	cd /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/yuniemao/Documents/CS5450/project-1 /Users/yuniemao/Documents/CS5450/project-1 /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles/starter_code.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/starter_code.dir/depend
 

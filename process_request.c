@@ -4,6 +4,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <png.h>
 #include "parse.h"
 #include "process_request.h"
 #include "log.h"
@@ -21,6 +22,7 @@ const char* STATUS_501 = "501 NOT IMPLEMENTED\r\n";
 const char* STATUS_505 = "505 HTTP VERSION NOT SUPPORTED\r\n";
 
 void get_content_type(char *file_ext, char *content_type) {
+    //log_write("file extension %s\n", file_ext);
     if (strstr(file_ext, ".html")) {
         strcpy(content_type, "text/html");
     }
@@ -48,6 +50,7 @@ int check_file_access(char *file_path, char *response) {
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_404);
         strcat(response, "\r\n");
+        return -1;
     }
     // open uri w readyonly
     int file = open(file_path, O_RDONLY);
@@ -64,7 +67,7 @@ void process_head(Request * request, char * response, char * resource_path){
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
 
-    fprintf(stdout, "req uri %s\n", request->http_uri);
+    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
@@ -102,7 +105,7 @@ void process_get(Request * request, char * response, char * resource_path){
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
 
-    fprintf(stdout, "req uri %s\n", request->http_uri);
+    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
@@ -113,11 +116,13 @@ void process_get(Request * request, char * response, char * resource_path){
     }
 
     char nbytes[MAX_FILE_BUF_SIZE];
-    // get content length from reading file
-    content_length = read(file, nbytes, sizeof(nbytes));
 
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
+    if (strcmp(content_type) == "")
+
+    // get content length from reading file
+    content_length = read(file, nbytes, sizeof(nbytes));
 
     // construct response
     strcat(response, HTTP_VERSION);
@@ -140,7 +145,7 @@ void process_get(Request * request, char * response, char * resource_path){
 void process_post(Request * request, char * response, char * resource_path){
     char file_path[BUF_SIZE];
 
-    fprintf(stdout, "req uri %s\n", request->http_uri);
+    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
@@ -196,19 +201,19 @@ void process_http_request(Request * request, char * response, char * resource_pa
     }
 
     if (strcmp(request->http_method, "HEAD") == 0) {
-        log_write("Processing a HEAD request");
+        //log_write("Processing a HEAD request\n");
         process_head(request, response, resource_path);
     }
     else if (strcmp(request->http_method, "GET") == 0) {
-        log_write("Processing a GET request");
+        //log_write("Processing a GET request\n");
         process_get(request, response, resource_path);
     }
     else if (strcmp(request->http_method, "POST") == 0) {
-        log_write("Processing a POST request");
+        //log_write("Processing a POST request\n");
         process_post(request, response, resource_path);
     }
     else {
-        log_write("Requested http method %s is not implemented.",  request->http_method);
+        //log_write("Requested http method %s is not implemented.\n",  request->http_method);
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_501);
         sprintf(response, "%sServer: Liso/1.0\r\n", response);

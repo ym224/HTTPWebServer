@@ -14,15 +14,16 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <time.h>
+#include <sys/stat.h>
 #include "log.h"
 #include "parse.h"
 #include "process_request.h"
 
-#define ECHO_PORT 9999
 #define BUF_SIZE 4096
 
 int close_socket(int sock) {
     log_write("closing sock %d\n", sock);
+    log_close();
     if (close(sock)) {
         fprintf(stderr, "Failed closing socket.\n");
         return 1;
@@ -46,16 +47,18 @@ int main(int argc, char *argv[]) {
     struct tm tm;
     struct stat sbuf;
     time_t now;
-    char filetype[100], tbuf[100], dbuf[100];
+    char tbuf[100], dbuf[100];
 
     if (argc < 3) {
         printf("Please enter the http port, www resource path, and the log file name\n");
-        return;
+        return -1;
     }
 
     http_port = atoi(argv[1]);
     www_path = argv[2];
     log_file = argv[3];
+
+    log_init(log_file);
 
     log_write("Using port %i, with www path %s, and log file %s\n", http_port, www_path, log_file);
 
@@ -65,11 +68,12 @@ int main(int argc, char *argv[]) {
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) /*socket(int domain, int type, int protocol); call creates an endpoint for communication and return a descriptor*/
     {
         log_write("Failed creating socket.\n");
+        log_close();
         return EXIT_FAILURE;
     }
 
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(ECHO_PORT); /*htons makes sure that the numbers are stored in memory in network bytes order*/
+    addr.sin_port = htons(http_port); /*htons makes sure that the numbers are stored in memory in network bytes order*/
     addr.sin_addr.s_addr = INADDR_ANY;
 
     setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
@@ -79,6 +83,7 @@ int main(int argc, char *argv[]) {
     {
         close_socket(sock);
         log_write("Failed binding socket.\n");
+        log_close();
         return EXIT_FAILURE;
     }
 
@@ -88,13 +93,14 @@ int main(int argc, char *argv[]) {
     {
         close_socket(sock);
         log_write("Error listening on socket.\n");
+        log_close();
         return EXIT_FAILURE;
     }
 
     for (i=0; i<FD_SETSIZE; i++) {
         client[i] = -1;
     }
-    log_init(log_file);
+
     max_idx = -1;
     maxfd = sock; //initialize maxfd
     FD_ZERO(&master); // initialize descriptor to empty
@@ -119,7 +125,7 @@ int main(int argc, char *argv[]) {
             /*Transform the ip address into strings.*/
             char str[INET_ADDRSTRLEN];
 
-            log_write("Client IP address is %s\n", inet_ntop(AF_INET, &ipAddr, str, INET_ADDRSTRLEN ));
+            //log_write("Client IP address is %s\n", inet_ntop(AF_INET, &ipAddr, str, INET_ADDRSTRLEN ));
 
             nready--;
             for (j = 0; j <= FD_SETSIZE; j++) {
@@ -142,10 +148,10 @@ int main(int argc, char *argv[]) {
                 if (client[k] > 0 && FD_ISSET(client[k], &read_fds)) {
                     nready--;
                     if ((readret = read(client[k], buf, BUF_SIZE)) > 1) {
-                        log_write("Server received %d bytes data on %d\n", (int)readret, client[k]);
+                        //log_write("Server received %d bytes data on %d\n", (int)readret, client[k]);
 
                         // handle request
-                        Request *request = parse(buf, readret, client[k]);
+                        Request *request = parse(buf, (int)readret, client[k]);
                         stat(client[k], &sbuf);
                         tm = *gmtime(&sbuf.st_mtime); //st_mtime: time of last data modification.
                         //printf("yeah %d", mktime(tm));
@@ -155,12 +161,12 @@ int main(int argc, char *argv[]) {
                         }
 
                         strftime(tbuf, 1000, "%a, %d %b %Y %H:%M:%S %Z", &tm);
-                        log_write("Last modified is %s\n", tbuf);
+                        //log_write("Last modified is %s\n", tbuf);
                         now = time(0);
 
                         tm = *gmtime(&now);
                         strftime(dbuf, 100, "%a, %d %b %Y %H:%M:%S %Z", &tm);
-                        log_write("Date is %s\n", dbuf);
+                        //log_write("Date is %s\n", dbuf);
 
 
                         char * response = malloc(20000);
@@ -169,19 +175,21 @@ int main(int argc, char *argv[]) {
 
                         printf("response is %s\n", response);
                         if (send(client[k], response, strlen(response), 0) < 0) {
+                            free(response);
                             close_socket(client[k]);
                             close_socket(sock);
                             log_write("Error sending to client.\n");
                             exit(EXIT_FAILURE);
                         }
-                        log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
+                        //log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
+
                         free(response);
                     } else {
                         if (readret == 0) {
-                            log_write("serve_clients: socket %d hung up\n", client[k]);
+                            //log_write("serve_clients: socket %d hung up\n", client[k]);
                         }
                         else {
-                            log_write("serve_clients: recv return -1\n");
+                            //log_write("serve_clients: recv return -1\n");
                         }
                         close_socket(client[k]);
                         FD_CLR(client[k], &master);

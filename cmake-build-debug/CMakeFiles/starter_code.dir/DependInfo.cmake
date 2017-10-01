@@ -4,10 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_client.c" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/starter_code.dir/echo_client.c.o"
-  "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/echo_server.c" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/starter_code.dir/echo_server.c.o"
-  "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/log.c" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/starter_code.dir/log.c.o"
-  "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/server.c" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/starter_code.dir/server.c.o"
+  "/Users/yuniemao/Documents/CS5450/project-1/echo_client.c" "/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles/starter_code.dir/echo_client.c.o"
+  "/Users/yuniemao/Documents/CS5450/project-1/lisod.c" "/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles/starter_code.dir/lisod.c.o"
+  "/Users/yuniemao/Documents/CS5450/project-1/log.c" "/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles/starter_code.dir/log.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

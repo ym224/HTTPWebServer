@@ -48,10 +48,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code"
+CMAKE_SOURCE_DIR = /Users/yuniemao/Documents/CS5450/project-1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug"
+CMAKE_BINARY_DIR = /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -150,32 +150,32 @@ echo_client.c.s:
 	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_client.c.s
 .PHONY : echo_client.c.s
 
-echo_server.o: echo_server.c.o
+lisod.o: lisod.c.o
 
-.PHONY : echo_server.o
+.PHONY : lisod.o
 
 # target to build an object file
-echo_server.c.o:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.o
-.PHONY : echo_server.c.o
+lisod.c.o:
+	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/lisod.c.o
+.PHONY : lisod.c.o
 
-echo_server.i: echo_server.c.i
+lisod.i: lisod.c.i
 
-.PHONY : echo_server.i
+.PHONY : lisod.i
 
 # target to preprocess a source file
-echo_server.c.i:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.i
-.PHONY : echo_server.c.i
+lisod.c.i:
+	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/lisod.c.i
+.PHONY : lisod.c.i
 
-echo_server.s: echo_server.c.s
+lisod.s: lisod.c.s
 
-.PHONY : echo_server.s
+.PHONY : lisod.s
 
 # target to generate assembly for a file
-echo_server.c.s:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.s
-.PHONY : echo_server.c.s
+lisod.c.s:
+	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/lisod.c.s
+.PHONY : lisod.c.s
 
 log.o: log.c.o
 
@@ -204,33 +204,6 @@ log.c.s:
 	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/log.c.s
 .PHONY : log.c.s
 
-server.o: server.c.o
-
-.PHONY : server.o
-
-# target to build an object file
-server.c.o:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.o
-.PHONY : server.c.o
-
-server.i: server.c.i
-
-.PHONY : server.i
-
-# target to preprocess a source file
-server.c.i:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.i
-.PHONY : server.c.i
-
-server.s: server.c.s
-
-.PHONY : server.s
-
-# target to generate assembly for a file
-server.c.s:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.s
-.PHONY : server.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -243,15 +216,12 @@ help:
 	@echo "... echo_client.o"
 	@echo "... echo_client.i"
 	@echo "... echo_client.s"
-	@echo "... echo_server.o"
-	@echo "... echo_server.i"
-	@echo "... echo_server.s"
+	@echo "... lisod.o"
+	@echo "... lisod.i"
+	@echo "... lisod.s"
 	@echo "... log.o"
 	@echo "... log.i"
 	@echo "... log.s"
-	@echo "... server.o"
-	@echo "... server.i"
-	@echo "... server.s"
 .PHONY : help
 
 

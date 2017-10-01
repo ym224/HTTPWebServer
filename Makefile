@@ -19,4 +19,4 @@ lisod: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
-	rm -f *~ *.o lisod log.c log.h process_request.c process_request.h lex.yy.c y.tab.c y.tab.h
+	rm -f *~ *.o lisod log process_request lex.yy y.tab

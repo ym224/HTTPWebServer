@@ -1,4 +1,4 @@
-# Install script for directory: /Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code
+# Install script for directory: /Users/yuniemao/Documents/CS5450/project-1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/yuniemao/Documents/CS5450/project-1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
