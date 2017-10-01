@@ -139,8 +139,10 @@ int main(int argc, char *argv[]) {
         }
         else {
             for (k = 0; (k <= max_idx && nready > 0); k++) {
+                int is_closed;
                 if (client[k] > 0 && FD_ISSET(client[k], &read_fds)) {
                     nready--;
+                    is_closed = 0;
                     if ((readret = read(client[k], buf, BUF_SIZE)) > 1) {
                         log_write("Server received %d bytes data on %d\n", (int)readret, client[k]);
 
@@ -149,11 +151,12 @@ int main(int argc, char *argv[]) {
                         stat(client[k], &sbuf);
                         tm = *gmtime(&sbuf.st_mtime); //st_mtime: time of last data modification.
                         //printf("yeah %d", mktime(tm));
+                        /*
                         if (&tm == 2){
                             now = time(0);
                             tm = *gmtime(&now);
                         }
-
+                        */
                         strftime(tbuf, 1000, "%a, %d %b %Y %H:%M:%S %Z", &tm);
                         log_write("Last modified is %s\n", tbuf);
                         now = time(0);
@@ -165,7 +168,7 @@ int main(int argc, char *argv[]) {
 
                         char * response = malloc(20000);
 
-                        process_http_request(request, response, www_path);
+                        process_http_request(request, response, www_path, &is_closed);
 
                         printf("response is %s\n", response);
                         if (send(client[k], response, strlen(response), 0) < 0) {
