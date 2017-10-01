@@ -15,6 +15,7 @@
 int log_file;
 
 void log_init(char *file) {
+
     log_file = open(file, O_RDWR | O_CREAT);
     if (file == NULL) {
         fprintf(stderr, "can't open output file %s\n", file);
@@ -26,9 +27,9 @@ void log_write(char *fmt, ...) {
     char msg[256] = "";
     va_list args;
     va_start(args, fmt);
-    vsprintf(msg, fmt, args);
+    sprintf(msg, fmt, args);
     write(log_file, msg, strlen(msg));
-    va_end(args);
+    //va_end(args);
 }
 
 void log_close() {

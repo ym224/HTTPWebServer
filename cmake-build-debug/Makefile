@@ -48,10 +48,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code"
+CMAKE_SOURCE_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug"
+CMAKE_BINARY_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug/CMakeFiles" "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug/CMakeFiles/progress.marks"
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named starter_code
+# Target rules for targets named project_1
 
 # Build rule for target.
-starter_code: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 starter_code
-.PHONY : starter_code
+project_1: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 project_1
+.PHONY : project_1
 
 # fast build rule for target.
-starter_code/fast:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/build
-.PHONY : starter_code/fast
+project_1/fast:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/build
+.PHONY : project_1/fast
 
 echo_client.o: echo_client.c.o
 
@@ -129,7 +129,7 @@ echo_client.o: echo_client.c.o
 
 # target to build an object file
 echo_client.c.o:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_client.c.o
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/echo_client.c.o
 .PHONY : echo_client.c.o
 
 echo_client.i: echo_client.c.i
@@ -138,7 +138,7 @@ echo_client.i: echo_client.c.i
 
 # target to preprocess a source file
 echo_client.c.i:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_client.c.i
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/echo_client.c.i
 .PHONY : echo_client.c.i
 
 echo_client.s: echo_client.c.s
@@ -147,35 +147,89 @@ echo_client.s: echo_client.c.s
 
 # target to generate assembly for a file
 echo_client.c.s:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_client.c.s
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/echo_client.c.s
 .PHONY : echo_client.c.s
 
-echo_server.o: echo_server.c.o
+example.o: example.c.o
 
-.PHONY : echo_server.o
+.PHONY : example.o
 
 # target to build an object file
-echo_server.c.o:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.o
-.PHONY : echo_server.c.o
+example.c.o:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/example.c.o
+.PHONY : example.c.o
 
-echo_server.i: echo_server.c.i
+example.i: example.c.i
 
-.PHONY : echo_server.i
+.PHONY : example.i
 
 # target to preprocess a source file
-echo_server.c.i:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.i
-.PHONY : echo_server.c.i
+example.c.i:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/example.c.i
+.PHONY : example.c.i
 
-echo_server.s: echo_server.c.s
+example.s: example.c.s
 
-.PHONY : echo_server.s
+.PHONY : example.s
 
 # target to generate assembly for a file
-echo_server.c.s:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/echo_server.c.s
-.PHONY : echo_server.c.s
+example.c.s:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/example.c.s
+.PHONY : example.c.s
+
+lex.yy.o: lex.yy.c.o
+
+.PHONY : lex.yy.o
+
+# target to build an object file
+lex.yy.c.o:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/lex.yy.c.o
+.PHONY : lex.yy.c.o
+
+lex.yy.i: lex.yy.c.i
+
+.PHONY : lex.yy.i
+
+# target to preprocess a source file
+lex.yy.c.i:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/lex.yy.c.i
+.PHONY : lex.yy.c.i
+
+lex.yy.s: lex.yy.c.s
+
+.PHONY : lex.yy.s
+
+# target to generate assembly for a file
+lex.yy.c.s:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/lex.yy.c.s
+.PHONY : lex.yy.c.s
+
+lisod.o: lisod.c.o
+
+.PHONY : lisod.o
+
+# target to build an object file
+lisod.c.o:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/lisod.c.o
+.PHONY : lisod.c.o
+
+lisod.i: lisod.c.i
+
+.PHONY : lisod.i
+
+# target to preprocess a source file
+lisod.c.i:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/lisod.c.i
+.PHONY : lisod.c.i
+
+lisod.s: lisod.c.s
+
+.PHONY : lisod.s
+
+# target to generate assembly for a file
+lisod.c.s:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/lisod.c.s
+.PHONY : lisod.c.s
 
 log.o: log.c.o
 
@@ -183,7 +237,7 @@ log.o: log.c.o
 
 # target to build an object file
 log.c.o:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/log.c.o
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/log.c.o
 .PHONY : log.c.o
 
 log.i: log.c.i
@@ -192,7 +246,7 @@ log.i: log.c.i
 
 # target to preprocess a source file
 log.c.i:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/log.c.i
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/log.c.i
 .PHONY : log.c.i
 
 log.s: log.c.s
@@ -201,35 +255,89 @@ log.s: log.c.s
 
 # target to generate assembly for a file
 log.c.s:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/log.c.s
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/log.c.s
 .PHONY : log.c.s
 
-server.o: server.c.o
+parse.o: parse.c.o
 
-.PHONY : server.o
+.PHONY : parse.o
 
 # target to build an object file
-server.c.o:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.o
-.PHONY : server.c.o
+parse.c.o:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/parse.c.o
+.PHONY : parse.c.o
 
-server.i: server.c.i
+parse.i: parse.c.i
 
-.PHONY : server.i
+.PHONY : parse.i
 
 # target to preprocess a source file
-server.c.i:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.i
-.PHONY : server.c.i
+parse.c.i:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/parse.c.i
+.PHONY : parse.c.i
 
-server.s: server.c.s
+parse.s: parse.c.s
 
-.PHONY : server.s
+.PHONY : parse.s
 
 # target to generate assembly for a file
-server.c.s:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/server.c.s
-.PHONY : server.c.s
+parse.c.s:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/parse.c.s
+.PHONY : parse.c.s
+
+process_request.o: process_request.c.o
+
+.PHONY : process_request.o
+
+# target to build an object file
+process_request.c.o:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/process_request.c.o
+.PHONY : process_request.c.o
+
+process_request.i: process_request.c.i
+
+.PHONY : process_request.i
+
+# target to preprocess a source file
+process_request.c.i:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/process_request.c.i
+.PHONY : process_request.c.i
+
+process_request.s: process_request.c.s
+
+.PHONY : process_request.s
+
+# target to generate assembly for a file
+process_request.c.s:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/process_request.c.s
+.PHONY : process_request.c.s
+
+y.tab.o: y.tab.c.o
+
+.PHONY : y.tab.o
+
+# target to build an object file
+y.tab.c.o:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/y.tab.c.o
+.PHONY : y.tab.c.o
+
+y.tab.i: y.tab.c.i
+
+.PHONY : y.tab.i
+
+# target to preprocess a source file
+y.tab.c.i:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/y.tab.c.i
+.PHONY : y.tab.c.i
+
+y.tab.s: y.tab.c.s
+
+.PHONY : y.tab.s
+
+# target to generate assembly for a file
+y.tab.c.s:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/y.tab.c.s
+.PHONY : y.tab.c.s
 
 # Help Target
 help:
@@ -239,19 +347,31 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... starter_code"
+	@echo "... project_1"
 	@echo "... echo_client.o"
 	@echo "... echo_client.i"
 	@echo "... echo_client.s"
-	@echo "... echo_server.o"
-	@echo "... echo_server.i"
-	@echo "... echo_server.s"
+	@echo "... example.o"
+	@echo "... example.i"
+	@echo "... example.s"
+	@echo "... lex.yy.o"
+	@echo "... lex.yy.i"
+	@echo "... lex.yy.s"
+	@echo "... lisod.o"
+	@echo "... lisod.i"
+	@echo "... lisod.s"
 	@echo "... log.o"
 	@echo "... log.i"
 	@echo "... log.s"
-	@echo "... server.o"
-	@echo "... server.i"
-	@echo "... server.s"
+	@echo "... parse.o"
+	@echo "... parse.i"
+	@echo "... parse.s"
+	@echo "... process_request.o"
+	@echo "... process_request.i"
+	@echo "... process_request.s"
+	@echo "... y.tab.o"
+	@echo "... y.tab.i"
+	@echo "... y.tab.s"
 .PHONY : help
 
 

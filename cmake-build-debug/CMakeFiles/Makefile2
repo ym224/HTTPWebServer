@@ -54,45 +54,45 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code"
+CMAKE_SOURCE_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug"
+CMAKE_BINARY_DIR = "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug"
 
 #=============================================================================
-# Target rules for target CMakeFiles/starter_code.dir
+# Target rules for target CMakeFiles/project_1.dir
 
 # All Build rule for target.
-CMakeFiles/starter_code.dir/all:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/depend
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" --progress-num=1,2,3,4,5 "Built target starter_code"
-.PHONY : CMakeFiles/starter_code.dir/all
+CMakeFiles/project_1.dir/all:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/depend
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug/CMakeFiles" --progress-num=1,2,3,4,5,6,7,8,9 "Built target project_1"
+.PHONY : CMakeFiles/project_1.dir/all
 
 # Include target in all.
-all: CMakeFiles/starter_code.dir/all
+all: CMakeFiles/project_1.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/starter_code.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" 5
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/starter_code.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/DistributedSystem/starter_code/cmake-build-debug/CMakeFiles" 0
-.PHONY : CMakeFiles/starter_code.dir/rule
+CMakeFiles/project_1.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug/CMakeFiles" 9
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/project_1.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/davidgu/Google Drive/Academic/Computer Science/5450 - Distributed System/project-1/cmake-build-debug/CMakeFiles" 0
+.PHONY : CMakeFiles/project_1.dir/rule
 
 # Convenience name for target.
-starter_code: CMakeFiles/starter_code.dir/rule
+project_1: CMakeFiles/project_1.dir/rule
 
-.PHONY : starter_code
-
-# clean rule for target.
-CMakeFiles/starter_code.dir/clean:
-	$(MAKE) -f CMakeFiles/starter_code.dir/build.make CMakeFiles/starter_code.dir/clean
-.PHONY : CMakeFiles/starter_code.dir/clean
+.PHONY : project_1
 
 # clean rule for target.
-clean: CMakeFiles/starter_code.dir/clean
+CMakeFiles/project_1.dir/clean:
+	$(MAKE) -f CMakeFiles/project_1.dir/build.make CMakeFiles/project_1.dir/clean
+.PHONY : CMakeFiles/project_1.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/project_1.dir/clean
 
 .PHONY : clean
 
