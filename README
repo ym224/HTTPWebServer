@@ -10,11 +10,43 @@
 
 
 Description of Files
-
+      Our lisod server is designed with 4 core components: 
+      lisod.c -- main source file
+      log.h -- header file for log
+      log.c -- source c file for log 
+      parse.h -- header file for parse
+      parse.c -- sourse c file for parse
+      process_request.h -- header file for process request
+      process_request.c -- sourse c file for process request
 
 
 How to Run
+      The server is built based on the files listed above. 
+      Simply run "make lisod" in a linux terminal to make the lisod an executable file, 
+      then run "./lisod" with the http port, www resourse path and the log file name in your terminal to execute the file.
+      After the file compiles, you can connect to the lisod server!
+      
+      Lisod server is open and listens to the client. 
+      1) For Checkpoint 1, the starter code given was able to create an echo server which is able to listen to only one client
+      at a time and return client's input. The goal for Checkpoint 1 is to create a echo_server to simultaneously listen to
+      multiple clients. 
+      2) For Checkpoint 2, the server has implemented three HTTP methods, HEAD, GET, and POST, in which each has its
+      functionalities. 
+        GET requests a specified resource; it should not have any side effects other than retrieval.
+        HEAD asks for an identical response as GET, without the actual body - no bytes from the requested resource.
+        POST submits data to be processed to an identified resource; the data is in the body of this request.
 
 
 
 Design and Implementation
+      In this project, multithread functionality is controlled by select(). With each new client comes in, the server will
+      create a seperate file descriptor to listen to the client. This will avoid a single line traffic when multiple clients
+      are visiting the server at the same time. 
+      
+      Everytime the server gets something from the client when it's running, it goes to the main function and check if a
+      socket is created. If it's a valid request, the server will call parse() function in parse.c to analyze the incoming
+      request. Then in the main function, process_http_request() in process_request.c was called. The function takes care of
+      HEAD, GET, and POST method. Finally, write_log() was called to write the log in a logfile and send() was called to send
+      the information back to the client.
+      
+      
