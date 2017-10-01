@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
             /*Transform the ip address into strings.*/
             char str[INET_ADDRSTRLEN];
 
-            //log_write("Client IP address is %s\n", inet_ntop(AF_INET, &ipAddr, str, INET_ADDRSTRLEN ));
+            log_write("Client IP address is %s\n", inet_ntop(AF_INET, &ipAddr, str, INET_ADDRSTRLEN ));
 
             nready--;
             for (j = 0; j <= FD_SETSIZE; j++) {
@@ -148,7 +148,7 @@ int main(int argc, char *argv[]) {
                 if (client[k] > 0 && FD_ISSET(client[k], &read_fds)) {
                     nready--;
                     if ((readret = read(client[k], buf, BUF_SIZE)) > 1) {
-                        //log_write("Server received %d bytes data on %d\n", (int)readret, client[k]);
+                        log_write("Server received %d bytes data on %d\n", (int)readret, client[k]);
 
                         // handle request
                         Request *request = parse(buf, (int)readret, client[k]);
@@ -161,12 +161,12 @@ int main(int argc, char *argv[]) {
                         }
 
                         strftime(tbuf, 1000, "%a, %d %b %Y %H:%M:%S %Z", &tm);
-                        //log_write("Last modified is %s\n", tbuf);
+                        log_write("Last modified is %s\n", tbuf);
                         now = time(0);
 
                         tm = *gmtime(&now);
                         strftime(dbuf, 100, "%a, %d %b %Y %H:%M:%S %Z", &tm);
-                        //log_write("Date is %s\n", dbuf);
+                        log_write("Date is %s\n", dbuf);
 
 
                         char * response = malloc(20000);
@@ -175,21 +175,20 @@ int main(int argc, char *argv[]) {
 
                         printf("response is %s\n", response);
                         if (send(client[k], response, strlen(response), 0) < 0) {
-                            free(response);
                             close_socket(client[k]);
                             close_socket(sock);
                             log_write("Error sending to client.\n");
                             exit(EXIT_FAILURE);
                         }
-                        //log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
+                        log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
 
                         free(response);
                     } else {
                         if (readret == 0) {
-                            //log_write("serve_clients: socket %d hung up\n", client[k]);
+                            log_write("serve_clients: socket %d hung up\n", client[k]);
                         }
                         else {
-                            //log_write("serve_clients: recv return -1\n");
+                            log_write("serve_clients: recv return -1\n");
                         }
                         close_socket(client[k]);
                         FD_CLR(client[k], &master);
