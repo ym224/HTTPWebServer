@@ -4,7 +4,6 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <png.h>
 #include "parse.h"
 #include "process_request.h"
 #include "log.h"
@@ -45,7 +44,7 @@ void get_content_type(char *file_ext, char *content_type) {
 
 int check_file_access(char *file_path, char *response) {
     if (access(file_path, F_OK) == -1) {
-        log_write("cannot access file at %s\n", file_path);
+        //log_write("cannot access file at %s\n", file_path);
         // return not found
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_404);
@@ -55,7 +54,7 @@ int check_file_access(char *file_path, char *response) {
     // open uri w readyonly
     int file = open(file_path, O_RDONLY);
     if (file == -1) {
-        log_write("can't open file at %s\n", file_path);
+        //log_write("can't open file at %s\n", file_path);
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_500);
         strcat(response, "\r\n");
@@ -89,10 +88,10 @@ void process_head(Request * request, char * response, char * resource_path){
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
     //sprintf(response, "%sDate: %s\r\n", response, dbuf);
-    sprintf(response, "%sServer: Liso/1.0\r\n", response);
+    sprintf(response, "%sserver: Liso/1.0\r\n", response);
     //if (is_closed) sprintf(buf, "%sConnection: close\r\n", response);
-    sprintf(response, "%sContent-Length: %ld\r\n", response, content_length);
-    sprintf(response, "%sContent-Type: %s\r\n", response, content_type);
+    sprintf(response, "%scontent-length: %ld\r\n", response, content_length);
+    sprintf(response, "%scontent-type: %s\r\n", response, content_type);
     //sprintf(buf, "%sLast-Modified: %s\r\n\r\n", buf, tbuf);
     strcat(response, "\r\n");
 
@@ -119,7 +118,9 @@ void process_get(Request * request, char * response, char * resource_path){
 
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
-    if (strcmp(content_type) == "")
+    if (strcmp(content_type, "image")) {
+        //TODO: process image files
+    }
 
     // get content length from reading file
     content_length = read(file, nbytes, sizeof(nbytes));
@@ -128,10 +129,10 @@ void process_get(Request * request, char * response, char * resource_path){
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
     //sprintf(response, "%sDate: %s\r\n", response, dbuf);
-    sprintf(response, "%sServer: Liso/1.0\r\n", response);
+    sprintf(response, "%sserver: Liso/1.0\r\n", response);
     //if (is_closed) sprintf(buf, "%sConnection: close\r\n", response);
-    sprintf(response, "%sContent-Length: %ld\r\n", response, content_length);
-    sprintf(response, "%sContent-Type: %s\r\n", response, content_type);
+    sprintf(response, "%scontent-length: %ld\r\n", response, content_length);
+    sprintf(response, "%scontent-type: %s\r\n", response, content_type);
     //sprintf(buf, "%sLast-Modified: %s\r\n\r\n", buf, tbuf);
     strcat(response, "\r\n");
 
@@ -171,13 +172,10 @@ void process_post(Request * request, char * response, char * resource_path){
         return;
     }
 
-    // process body of post??
-
-    printf("successful post");
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
-    sprintf(response, "%sServer: Liso/1.0\r\n", response);
-    sprintf(response, "%sContent-Length: %s\r\n", response, content_length);
+    sprintf(response, "%sserver: Liso/1.0\r\n", response);
+    sprintf(response, "%scontent-length: %s\r\n", response, content_length);
     strcat(response, "\r\n");
 
     memset(file_path, 0, BUF_SIZE);
@@ -216,7 +214,7 @@ void process_http_request(Request * request, char * response, char * resource_pa
         //log_write("Requested http method %s is not implemented.\n",  request->http_method);
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_501);
-        sprintf(response, "%sServer: Liso/1.0\r\n", response);
+        sprintf(response, "%sserver: Liso/1.0\r\n", response);
         strcat(response, "\r\n");
     }
 }

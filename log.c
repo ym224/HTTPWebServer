@@ -22,7 +22,6 @@ void log_init(char *file) {
 }
 
 void log_write(char *fmt, ...) {
-    printf(fmt);
     char msg[256] = "";
     va_list args;
     va_start(args, fmt);
