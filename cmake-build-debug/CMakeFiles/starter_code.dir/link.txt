@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/starter_code.dir/echo_client.c.o CMakeFiles/starter_code.dir/echo_server.c.o CMakeFiles/starter_code.dir/server.c.o CMakeFiles/starter_code.dir/log.c.o  -o starter_code 
