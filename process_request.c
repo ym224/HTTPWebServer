@@ -105,12 +105,9 @@ int process_get(Request * request, int clientFd, char * resource_path, int * is_
     struct stat sb;
 
     memset(file_path, 0, sizeof(file_path));
-    printf("filename%s\n", file_path);
-    //memset(response, '\0', sizeof(response));
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
-    printf("filename%s\n", file_path);
 
     char * error_response[RESPONSE_DEFAULT_SIZE];
     int file = check_file_access(file_path, error_response);
@@ -123,12 +120,12 @@ int process_get(Request * request, int clientFd, char * resource_path, int * is_
     long fsize = ftell(f);
     fseek(f, 0, SEEK_SET);
 
-    char *string = malloc(fsize + 1);
+    char *body = malloc(fsize + 1);
 
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
 
-    fread(string, fsize, 1, f);
+    fread(body, fsize, 1, f);
     fclose(f);
 
     // get content type based on uri
@@ -147,13 +144,15 @@ int process_get(Request * request, int clientFd, char * resource_path, int * is_
     sprintf(response, "%sconnection: keep-alive\r\n", response);
     append_date_headers(request, response);
     strcat(response, "\r\n");
-    strcat(response, string);
+    strcat(response, body);
 
 
     int success = send_client_response(clientFd, response);
     memset(file_path, 0, BUF_SIZE);
     memset(content_type, 0, BUF_SIZE);
-    free(string);
+    if (body) {
+        free(body);
+    }
     return success;
 }
 
@@ -246,11 +245,15 @@ int process_http_request(Request * request, int clientFd, char * resource_path, 
 
 int send_client_response(int clientFd, char * response){
     if (send(clientFd, response, strlen(response), 0) < 0) {
-        free(response);
+        if (response) {
+            free(response);
+        }
         log_write("Error sending to client.\n");
         return -1;
     }
-    free(response);
+    if (response) {
+        free(response);
+    }
     return 0;
 }
 

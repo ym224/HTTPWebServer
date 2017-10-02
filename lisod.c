@@ -153,7 +153,6 @@ int main(int argc, char *argv[]) {
 
                         if (process_http_request(request, client[k], www_path, &is_closed) != 0) {
                             close_socket(client[k]);
-                            close_socket(sock);
                             log_write("Error sending to client.\n");
                             exit(EXIT_FAILURE);
                         }
