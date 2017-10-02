@@ -1,5 +1,4 @@
 #define BUF_SIZE 4096
-#define HTTP_RESPONSE_SIZE 200000
 #define MAX_FILE_BUF_SIZE 100000
 
 #include <fcntl.h>
@@ -120,7 +119,7 @@ void process_get(Request * request, char * response, char * resource_path, int *
     FILE *f = fopen(file_path, "rb");
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
-    fseek(f, 0, SEEK_SET);  //same as rewind(f);
+    fseek(f, 0, SEEK_SET);
 
     char *string = malloc(fsize + 1);
     fread(string, fsize, 1, f);
@@ -152,10 +151,9 @@ void process_get(Request * request, char * response, char * resource_path, int *
 
     strcat(response, string);
     memset(file_path, 0, BUF_SIZE);
-    //memset(nbytes, 0, MAX_FILE_BUF_SIZE);
     memset(content_type, 0, BUF_SIZE);
     free(string);
-    printf(response);
+    //printf(response);
 }
 
 void process_post(Request * request, char * response, char * resource_path, int * is_closed){
