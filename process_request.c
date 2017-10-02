@@ -22,7 +22,6 @@ const char* STATUS_501 = "501 NOT IMPLEMENTED\r\n";
 const char* STATUS_505 = "505 HTTP VERSION NOT SUPPORTED\r\n";
 
 void get_content_type(char *file_ext, char *content_type) {
-    //log_write("file extension %s\n", file_ext);
     if (strstr(file_ext, ".html")) {
         strcpy(content_type, "text/html");
     }
@@ -40,15 +39,6 @@ void get_content_type(char *file_ext, char *content_type) {
     }
     else {
         strcpy(content_type, "application/octet-stream");
-    }
-}
-
-void process_png(char *file_path) {
-    int ch;
-    FILE *file =fopen(file_path,"r");
-
-    while((ch=fgetc(file))!=EOF ) {
-        printf("%c ", ch);
     }
 }
 
@@ -79,9 +69,6 @@ void process_head(Request * request, char * response, char * resource_path, int 
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
 
-    // get content type based on uri
-    get_content_type(request->http_uri, content_type);
-
     int file = check_file_access(file_path, response);
     if (file < 0) {
         return;
@@ -91,8 +78,11 @@ void process_head(Request * request, char * response, char * resource_path, int 
     // get content length from reading file
     content_length = read(file, nbytes, sizeof(nbytes));
 
+    // get content type based on uri
+    get_content_type(request->http_uri, content_type);
+
+    memset(response, '\0', sizeof(response));
     // construct response
-    //sprintf(response, "HTTP/1.1 200 OK\r\n");
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
 
@@ -101,6 +91,14 @@ void process_head(Request * request, char * response, char * resource_path, int 
     sprintf(response, "%scontent-type: %s\r\n", response, content_type);
     sprintf(response, "%sconnection: keep-alive\r\n", response);
     append_date_headers(request, response);
+
+    // Get the latest time (code modified from: http://stackoverflow.com/questions/10446526/get-last-modified-time-of-file-in-linux)
+    struct stat attr;
+    stat(request->http_uri, &attr);
+    strcat(response, "Last-Modified: ");
+    strcat(response, ctime(&attr.st_mtime));
+    strcat(response, "\r\n");
+
     strcat(response, "\r\n");
 
     memset(file_path, 0, BUF_SIZE);
@@ -112,14 +110,9 @@ void process_get(Request * request, char * response, char * resource_path, int *
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
 
-    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
-
-    // get content type based on uri
-    get_content_type(request->http_uri, content_type);
-
 
     int file = check_file_access(file_path, response);
     if (file < 0) {
@@ -128,9 +121,15 @@ void process_get(Request * request, char * response, char * resource_path, int *
 
     char nbytes[MAX_FILE_BUF_SIZE];
 
+    // get content type based on uri
+    get_content_type(request->http_uri, content_type);
+
+    // get content length from reading file
     content_length = read(file, nbytes, sizeof(nbytes));
 
     // construct response
+    memset(response, '\0', sizeof(response));
+
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
     sprintf(response, "%sserver: Liso/1.0\r\n", response);
@@ -140,13 +139,8 @@ void process_get(Request * request, char * response, char * resource_path, int *
     append_date_headers(request, response);
     strcat(response, "\r\n");
 
-    if (strstr(content_type, "image")) {
-        //process_png(file_path);
-        strcat(response, nbytes);
-    }
-    else{
-        strcat(response, nbytes);
-    }
+    close(file);
+    strcat(response, nbytes);
 
     memset(file_path, 0, BUF_SIZE);
     memset(nbytes, 0, MAX_FILE_BUF_SIZE);
@@ -183,6 +177,7 @@ void process_post(Request * request, char * response, char * resource_path, int 
         return;
     }
 
+    memset(response, '\0', sizeof(response));
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
     sprintf(response, "%sserver: Liso/1.0\r\n", response);

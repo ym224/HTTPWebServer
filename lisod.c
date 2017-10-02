@@ -127,7 +127,6 @@ int main(int argc, char *argv[]) {
 
             //log_write("Client IP address is %s\n", inet_ntop(AF_INET, &ipAddr, str, INET_ADDRSTRLEN ));
 
-            nready--;
             for (j = 0; j <= FD_SETSIZE; j++) {
                 if (client[j] < 0) {
                     client[j] = client_sock;
@@ -159,22 +158,22 @@ int main(int argc, char *argv[]) {
 
                         process_http_request(request, response, www_path, &is_closed);
 
-                        printf("response is %s\n", response);
+                        printf(response);
                         if (send(client[k], response, strlen(response), 0) < 0) {
+                            free(response);
                             close_socket(client[k]);
                             close_socket(sock);
                             //log_write("Error sending to client.\n");
                             exit(EXIT_FAILURE);
                         }
-                        //log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
-
                         free(response);
+                        //log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
                     } else {
                         if (readret == 0) {
-                            log_write("serve_clients: socket %d hung up\n", client[k]);
+                            //log_write("serve_clients: socket %d hung up\n", client[k]);
                         }
                         else {
-                            log_write("serve_clients: recv return -1\n");
+                            //log_write("serve_clients: recv return -1\n");
                         }
                         close_socket(client[k]);
                         FD_CLR(client[k], &master);
