@@ -25,7 +25,7 @@ void log_write(char *fmt, ...) {
     char msg[256] = "";
     va_list args;
     va_start(args, fmt);
-    vsprintf(msg, fmt, args);
+    //vsprintf(msg, fmt, args);
     write(log_file, msg, strlen(msg));
     va_end(args);
 }
