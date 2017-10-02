@@ -5,6 +5,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <time.h>
+#include <stdio.h>
+#include <sys/stat.h>
 #include "parse.h"
 #include "process_request.h"
 #include "log.h"
@@ -92,13 +94,6 @@ void process_head(Request * request, char * response, char * resource_path, int 
     sprintf(response, "%sconnection: keep-alive\r\n", response);
     append_date_headers(request, response);
 
-    // Get the latest time (code modified from: http://stackoverflow.com/questions/10446526/get-last-modified-time-of-file-in-linux)
-    struct stat attr;
-    stat(request->http_uri, &attr);
-    strcat(response, "Last-Modified: ");
-    strcat(response, ctime(&attr.st_mtime));
-    strcat(response, "\r\n");
-
     strcat(response, "\r\n");
 
     memset(file_path, 0, BUF_SIZE);
@@ -109,23 +104,53 @@ void process_head(Request * request, char * response, char * resource_path, int 
 void process_get(Request * request, char * response, char * resource_path, int * is_closed){
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
+    struct stat sb;
 
+    memset(file_path, 0, sizeof(file_path));
+    printf("filename%s\n", file_path);
+    memset(response, '\0', sizeof(response));
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
+    printf("filename%s\n", file_path);
 
     int file = check_file_access(file_path, response);
     if (file < 0) {
         return;
     }
 
-    char nbytes[MAX_FILE_BUF_SIZE];
+//    int size = 100000;
+//    if (stat(file_path, & sb) == 0) {
+//        size = (int)sb.st_size;
+//        printf("size%ld\n", sb.st_size);
+//    }
+
+    //char nbytes[size];
+    //char * nbytes = malloc(sb.st_size);
+
+    close(file);
+
+    FILE *f = fopen(file_path, "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);  //same as rewind(f);
+
+    char *string = malloc(fsize + 1);
+    fread(string, fsize, 1, f);
+
+    fclose(f);
+
+    //string[fsize] = 0;
 
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
 
-    // get content length from reading file
-    content_length = read(file, nbytes, sizeof(nbytes));
+    //content_length = read(file, nbytes, sizeof(nbytes));
+
+    if (20000 < fsize) {
+        printf("increasing memory of response");
+        response = malloc(2*fsize);
+    }
 
     // construct response
     memset(response, '\0', sizeof(response));
@@ -133,24 +158,23 @@ void process_get(Request * request, char * response, char * resource_path, int *
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
     sprintf(response, "%sserver: Liso/1.0\r\n", response);
-    sprintf(response, "%scontent-length: %ld\r\n", response, content_length);
+    sprintf(response, "%scontent-length: %ld\r\n", response, fsize);
     sprintf(response, "%scontent-type: %s\r\n", response, content_type);
     sprintf(response, "%sconnection: keep-alive\r\n", response);
     append_date_headers(request, response);
     strcat(response, "\r\n");
 
-    close(file);
-    strcat(response, nbytes);
-
+    strcat(response, string);
     memset(file_path, 0, BUF_SIZE);
-    memset(nbytes, 0, MAX_FILE_BUF_SIZE);
+    //memset(nbytes, 0, MAX_FILE_BUF_SIZE);
     memset(content_type, 0, BUF_SIZE);
+    free(string);
+    printf(response);
 }
 
 void process_post(Request * request, char * response, char * resource_path, int * is_closed){
     char file_path[BUF_SIZE];
 
-    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
