@@ -98,22 +98,24 @@ void process_head(Request * request, char * response, char * resource_path, int 
     memset(content_type, 0, BUF_SIZE);
 }
 
-void process_get(Request * request, char * response, char * resource_path, int * is_closed){
+// processing get and sending response separately because not sure how to reallocate more memory to response ;-((((
+int process_get(Request * request, int clientFd, char * resource_path, int * is_closed){
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
     struct stat sb;
 
     memset(file_path, 0, sizeof(file_path));
     printf("filename%s\n", file_path);
-    memset(response, '\0', sizeof(response));
+    //memset(response, '\0', sizeof(response));
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
     printf("filename%s\n", file_path);
 
-    int file = check_file_access(file_path, response);
+    char * error_response[RESPONSE_DEFAULT_SIZE];
+    int file = check_file_access(file_path, error_response);
     if (file < 0) {
-        return;
+        return send_client_response(clientFd, error_response);
     }
 
     FILE *f = fopen(file_path, "rb");
@@ -122,20 +124,17 @@ void process_get(Request * request, char * response, char * resource_path, int *
     fseek(f, 0, SEEK_SET);
 
     char *string = malloc(fsize + 1);
-    fread(string, fsize, 1, f);
-
-    fclose(f);
-
-    //string[fsize] = 0;
 
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
 
+    fread(string, fsize, 1, f);
+    fclose(f);
 
-    if (fsize > RESPONSE_DEFAULT_SIZE) {
-        printf("increasing memory of response");
-        response = malloc(2*fsize);
-    }
+    // get content type based on uri
+    get_content_type(request->http_uri, content_type);
+
+    char * response = malloc(2*fsize);
 
     // construct response
     memset(response, '\0', sizeof(response));
@@ -148,12 +147,14 @@ void process_get(Request * request, char * response, char * resource_path, int *
     sprintf(response, "%sconnection: keep-alive\r\n", response);
     append_date_headers(request, response);
     strcat(response, "\r\n");
-
     strcat(response, string);
+
+
+    int success = send_client_response(clientFd, response);
     memset(file_path, 0, BUF_SIZE);
     memset(content_type, 0, BUF_SIZE);
     free(string);
-    //printf(response);
+    return success;
 }
 
 void process_post(Request * request, char * response, char * resource_path, int * is_closed){
@@ -197,7 +198,8 @@ void process_post(Request * request, char * response, char * resource_path, int 
     memset(file_path, 0, BUF_SIZE);
 }
 
-void process_http_request(Request * request, char * response, char * resource_path, int * is_closed) {
+int process_http_request(Request * request, int clientFd, char * resource_path, int * is_closed) {
+    char * response = malloc(RESPONSE_DEFAULT_SIZE);
     if (request == NULL) {
         log_write("Bad Request. Request cannot be parsed!\n");
         *is_closed = 1;
@@ -205,7 +207,7 @@ void process_http_request(Request * request, char * response, char * resource_pa
         strcat(response, STATUS_400);
         sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
-        return;
+        return send_client_response(clientFd, response);
     }
 
     if (!strcmp(request->http_version, HTTP_VERSION)) {
@@ -215,7 +217,7 @@ void process_http_request(Request * request, char * response, char * resource_pa
         strcat(response, STATUS_505);
         sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
-        return;
+        return send_client_response(clientFd, response);
     }
 
     if (strcmp(request->http_method, "HEAD") == 0) {
@@ -224,7 +226,7 @@ void process_http_request(Request * request, char * response, char * resource_pa
     }
     else if (strcmp(request->http_method, "GET") == 0) {
         //log_write("Processing a GET request\n");
-        process_get(request, response, resource_path, is_closed);
+        return process_get(request, clientFd, resource_path, is_closed);
     }
     else if (strcmp(request->http_method, "POST") == 0) {
         //log_write("Processing a POST request\n");
@@ -239,6 +241,17 @@ void process_http_request(Request * request, char * response, char * resource_pa
         sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
     }
+    return send_client_response(clientFd, response);
+}
+
+int send_client_response(int clientFd, char * response){
+    if (send(clientFd, response, strlen(response), 0) < 0) {
+        free(response);
+        log_write("Error sending to client.\n");
+        return -1;
+    }
+    free(response);
+    return 0;
 }
 
 void append_date_headers(Request * request, char * response){

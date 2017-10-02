@@ -151,20 +151,13 @@ int main(int argc, char *argv[]) {
                         // handle request
                         Request *request = parse(buf, (int)readret, client[k]);
 
-                        char * response = malloc(RESPONSE_DEFAULT_SIZE);
-
-                        process_http_request(request, response, www_path, &is_closed);
-
-                        printf("response is %s\n", response);
-                        if (send(client[k], response, strlen(response), 0) < 0) {
-                            free(response);
+                        if (process_http_request(request, client[k], www_path, &is_closed) != 0) {
                             close_socket(client[k]);
                             close_socket(sock);
                             log_write("Error sending to client.\n");
                             exit(EXIT_FAILURE);
                         }
-                        free(response);
-                        //log_write("Server sent %d bytes data to %d\n", strlen(response), client[k]);
+
                     } else {
                         if (readret == 0) {
                             //log_write("serve_clients: socket %d hung up\n", client[k]);
