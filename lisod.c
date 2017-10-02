@@ -5,13 +5,10 @@
  */
 
 #include <netinet/in.h>
-#include <netinet/ip.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <arpa/inet.h>
 #include <time.h>
 #include <sys/stat.h>
@@ -23,11 +20,11 @@
 
 int close_socket(int sock) {
     log_write("closing sock %d\n", sock);
-    log_close();
     if (close(sock)) {
         fprintf(stderr, "Failed closing socket.\n");
         return 1;
     }
+    log_close();
     return 0;
 }
 
@@ -154,16 +151,16 @@ int main(int argc, char *argv[]) {
                         // handle request
                         Request *request = parse(buf, (int)readret, client[k]);
 
-                        char * response = malloc(20000);
+                        char * response = malloc(RESPONSE_DEFAULT_SIZE);
 
                         process_http_request(request, response, www_path, &is_closed);
 
-                        printf(response);
+                        printf("response is %s\n", response);
                         if (send(client[k], response, strlen(response), 0) < 0) {
                             free(response);
                             close_socket(client[k]);
                             close_socket(sock);
-                            //log_write("Error sending to client.\n");
+                            log_write("Error sending to client.\n");
                             exit(EXIT_FAILURE);
                         }
                         free(response);

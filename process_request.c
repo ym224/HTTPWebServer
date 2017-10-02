@@ -5,8 +5,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <time.h>
-#include <stdio.h>
-#include <sys/stat.h>
 #include "parse.h"
 #include "process_request.h"
 #include "log.h"
@@ -119,17 +117,6 @@ void process_get(Request * request, char * response, char * resource_path, int *
         return;
     }
 
-//    int size = 100000;
-//    if (stat(file_path, & sb) == 0) {
-//        size = (int)sb.st_size;
-//        printf("size%ld\n", sb.st_size);
-//    }
-
-    //char nbytes[size];
-    //char * nbytes = malloc(sb.st_size);
-
-    close(file);
-
     FILE *f = fopen(file_path, "rb");
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
@@ -145,9 +132,8 @@ void process_get(Request * request, char * response, char * resource_path, int *
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
 
-    //content_length = read(file, nbytes, sizeof(nbytes));
 
-    if (20000 < fsize) {
+    if (fsize > RESPONSE_DEFAULT_SIZE) {
         printf("increasing memory of response");
         response = malloc(2*fsize);
     }
