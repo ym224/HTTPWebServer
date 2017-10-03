@@ -1,7 +1,30 @@
-checkpoint 1 test for echo
+Tests Performed
 
-example with realistic GET request
+Checkpoint 1:
+   Checkpoint 1 checked for a basic echo server that listens to multiple clients.
+   1. Manually tested for a single thread connection.
+      Open three terminals, run echo_server in one and echo_client in the other two.
+      When any of the client sends data, server successfully receives and echos back the data to both clients in the order that they are received.
+   2. Tested for concurrent connections.
+      Run the checkpoint 1 autoscript with parameters ./echo_server 9999 50 200 4000 1020
+      This server successfully handles 1020 concurrent connections, each with 50 trials, 200 read-writes that sends up to 4000 bytes of data.
 
-lowlevelhttptests
-
-checkpoint 2 grader
+Checkpoint 2:
+   Checkpoint 2 checked the implementation of HEAD, GET, and POST.
+   Used grader1cp2.py to run the tests.
+   Types of files tested (html, css, png)
+   1. Passes HEAD headers test
+        The server returns headers 'connection', 'content-length', 'date', 'last-modified', 'server', 'content-type' for HEAD and GET
+   2. Passes HEAD test
+        The server returns 200 status code along with proper headers and ensures that no content is sent in the body
+   3. Passes GET test
+        The server returns 200 status code along with proper headers and the content sent in the body matches with the content in the requested files.
+        The server successfully returns the data for html and css files, but fails to send the png file.
+   4. Passes Bad GET test
+        The server returns 404 status code when the file not on the server
+   5. Passes Post test
+        The server swallows the data posted and returns 200 status code
+   6. Passes Big GET test
+        The server returns 200, the headers and the data for the request of a large file
+        For this, we peek the file name to get the size of the file, then dynamically allocate the body buffer to 1+size of the file and the response to 2*body size.
+        However, this will only work for cases where we know the size of the content body to be returned.

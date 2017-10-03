@@ -77,6 +77,7 @@ void process_head(Request * request, char * response, char * resource_path, int 
     // get content length from reading file
     content_length = read(file, nbytes, sizeof(nbytes));
 
+    close(file);
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
 
@@ -114,7 +115,7 @@ int process_get(Request * request, int clientFd, char * resource_path, int * is_
     if (file < 0) {
         return send_client_response(clientFd, error_response);
     }
-
+    close(file);
     FILE *f = fopen(file_path, "rb");
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
@@ -167,7 +168,7 @@ void process_post(Request * request, char * response, char * resource_path, int 
     if (file < 0) {
         return;
     }
-
+    close(file);
     char * content_length;
     // get content-length from header
     for (int i=0; i< request->header_count; i++){
