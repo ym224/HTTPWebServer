@@ -1,7 +1,26 @@
-checkpoint 1 test for echo
+Checkpoint 1:
+   Checkpoint 1 checked for a basic echo server that listens to multiple clients.
+   1. Tested for a single thread connection.
+      The functionality is supported by the starter_code.
+      Open two terminals, run the server code in one and the client code in the other.
+      Type input on the client side, server should receive the input and send response to the client terminal.
+   2. Tested for concurrent connection.
+      Open terminals, run the server code in one and the client code in the other.
+      Use the given python grader to add multiple connections.
 
-example with realistic GET request
-
-lowlevelhttptests
-
-checkpoint 2 grader
+Checkpoint 2:
+   Checkpoint 2 checked the HTML implementation of HEAD, GET, and POST.
+   Used grader1cp2.py to run the test.
+   types of files tested (html, css, png)
+   1. passes HEAD headers 
+        checks for existence of 'connection', 'content-length', 'date', 'last-modified', 'server', 'content-type'
+   2. passes HEAD 
+        the script piggyback off of lowlevelhttptests to check the correct headers for simple test
+   3. passes GET
+        PNG content failed to work
+   4. passes Bad
+        returns not found for file not on server
+   5. passes Post 
+        swallows data and returns 200
+   6. passes Big 
+        peek the file name to get the size of the file and allocate the body buffer to 1+ size of the file, and the response           to 2*body size. However, this will only work for cases where we know the size of the content body to be returned.
