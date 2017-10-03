@@ -1,9 +1,9 @@
 #define BUF_SIZE 4096
-#define HTTP_RESPONSE_SIZE 200000
 #define MAX_FILE_BUF_SIZE 100000
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <time.h>
 #include "parse.h"
 #include "process_request.h"
 #include "log.h"
@@ -21,7 +21,6 @@ const char* STATUS_501 = "501 NOT IMPLEMENTED\r\n";
 const char* STATUS_505 = "505 HTTP VERSION NOT SUPPORTED\r\n";
 
 void get_content_type(char *file_ext, char *content_type) {
-    //log_write("file extension %s\n", file_ext);
     if (strstr(file_ext, ".html")) {
         strcpy(content_type, "text/html");
     }
@@ -45,7 +44,6 @@ void get_content_type(char *file_ext, char *content_type) {
 int check_file_access(char *file_path, char *response) {
     if (access(file_path, F_OK) == -1) {
         //log_write("cannot access file at %s\n", file_path);
-        // return not found
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_404);
         strcat(response, "\r\n");
@@ -62,11 +60,10 @@ int check_file_access(char *file_path, char *response) {
     return file;
 }
 
-void process_head(Request * request, char * response, char * resource_path){
+void process_head(Request * request, char * response, char * resource_path, int * is_closed){
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
 
-    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
@@ -83,16 +80,17 @@ void process_head(Request * request, char * response, char * resource_path){
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
 
+    memset(response, '\0', sizeof(response));
     // construct response
-    //sprintf(response, "HTTP/1.1 200 OK\r\n");
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
-    //sprintf(response, "%sDate: %s\r\n", response, dbuf);
+
     sprintf(response, "%sserver: Liso/1.0\r\n", response);
-    //if (is_closed) sprintf(buf, "%sConnection: close\r\n", response);
     sprintf(response, "%scontent-length: %ld\r\n", response, content_length);
     sprintf(response, "%scontent-type: %s\r\n", response, content_type);
-    //sprintf(buf, "%sLast-Modified: %s\r\n\r\n", buf, tbuf);
+    sprintf(response, "%sconnection: keep-alive\r\n", response);
+    append_date_headers(request, response);
+
     strcat(response, "\r\n");
 
     memset(file_path, 0, BUF_SIZE);
@@ -100,53 +98,67 @@ void process_head(Request * request, char * response, char * resource_path){
     memset(content_type, 0, BUF_SIZE);
 }
 
-void process_get(Request * request, char * response, char * resource_path){
+void process_get(Request * request, char * response, char * resource_path, int * is_closed){
     char file_path[BUF_SIZE], content_type[BUF_SIZE];
     size_t content_length;
+    struct stat sb;
 
-    //fprintf(stdout, "req uri %s\n", request->http_uri);
+    memset(file_path, 0, sizeof(file_path));
+    printf("filename%s\n", file_path);
+    memset(response, '\0', sizeof(response));
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
+    printf("filename%s\n", file_path);
 
     int file = check_file_access(file_path, response);
     if (file < 0) {
         return;
     }
 
-    char nbytes[MAX_FILE_BUF_SIZE];
+    FILE *f = fopen(file_path, "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *string = malloc(fsize + 1);
+    fread(string, fsize, 1, f);
+
+    fclose(f);
+
+    //string[fsize] = 0;
 
     // get content type based on uri
     get_content_type(request->http_uri, content_type);
-    if (strcmp(content_type, "image")) {
-        //TODO: process image files
+
+
+    if (fsize > RESPONSE_DEFAULT_SIZE) {
+        printf("increasing memory of response");
+        response = malloc(2*fsize);
     }
 
-    // get content length from reading file
-    content_length = read(file, nbytes, sizeof(nbytes));
-
     // construct response
+    memset(response, '\0', sizeof(response));
+
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
-    //sprintf(response, "%sDate: %s\r\n", response, dbuf);
     sprintf(response, "%sserver: Liso/1.0\r\n", response);
-    //if (is_closed) sprintf(buf, "%sConnection: close\r\n", response);
-    sprintf(response, "%scontent-length: %ld\r\n", response, content_length);
+    sprintf(response, "%scontent-length: %ld\r\n", response, fsize);
     sprintf(response, "%scontent-type: %s\r\n", response, content_type);
-    //sprintf(buf, "%sLast-Modified: %s\r\n\r\n", buf, tbuf);
+    sprintf(response, "%sconnection: keep-alive\r\n", response);
+    append_date_headers(request, response);
     strcat(response, "\r\n");
 
-    strcat(response, nbytes);
-
+    strcat(response, string);
     memset(file_path, 0, BUF_SIZE);
-    memset(nbytes, 0, MAX_FILE_BUF_SIZE);
     memset(content_type, 0, BUF_SIZE);
+    free(string);
+    //printf(response);
 }
 
-void process_post(Request * request, char * response, char * resource_path){
+void process_post(Request * request, char * response, char * resource_path, int * is_closed){
     char file_path[BUF_SIZE];
 
-    //fprintf(stdout, "req uri %s\n", request->http_uri);
     // get request uri to get location of file
     strcat(file_path, resource_path);
     strcat(file_path, request->http_uri);
@@ -168,53 +180,81 @@ void process_post(Request * request, char * response, char * resource_path){
         // return 411
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_411);
+        sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
         return;
     }
 
+    memset(response, '\0', sizeof(response));
     strcat(response, HTTP_VERSION);
     strcat(response, STATUS_200);
     sprintf(response, "%sserver: Liso/1.0\r\n", response);
     sprintf(response, "%scontent-length: %s\r\n", response, content_length);
+    sprintf(response, "%sconnection: keep-alive\r\n", response);
+    append_date_headers(request, response);
     strcat(response, "\r\n");
 
     memset(file_path, 0, BUF_SIZE);
 }
 
-void process_http_request(Request * request, char * response, char * resource_path) {
+void process_http_request(Request * request, char * response, char * resource_path, int * is_closed) {
     if (request == NULL) {
         log_write("Bad Request. Request cannot be parsed!\n");
+        *is_closed = 1;
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_400);
+        sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
         return;
     }
 
     if (!strcmp(request->http_version, HTTP_VERSION)) {
         log_write("HTTP Version %s not supported.\n", request->http_version);
+        *is_closed = 1;
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_505);
+        sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
         return;
     }
 
     if (strcmp(request->http_method, "HEAD") == 0) {
         //log_write("Processing a HEAD request\n");
-        process_head(request, response, resource_path);
+        process_head(request, response, resource_path, is_closed);
     }
     else if (strcmp(request->http_method, "GET") == 0) {
         //log_write("Processing a GET request\n");
-        process_get(request, response, resource_path);
+        process_get(request, response, resource_path, is_closed);
     }
     else if (strcmp(request->http_method, "POST") == 0) {
         //log_write("Processing a POST request\n");
-        process_post(request, response, resource_path);
+        process_post(request, response, resource_path, is_closed);
     }
     else {
-        //log_write("Requested http method %s is not implemented.\n",  request->http_method);
+        log_write("Requested http method %s is not implemented.\n",  request->http_method);
+        *is_closed = 1;
         strcat(response, HTTP_VERSION);
         strcat(response, STATUS_501);
         sprintf(response, "%sserver: Liso/1.0\r\n", response);
+        sprintf(response, "%sconnection: close\r\n", response);
         strcat(response, "\r\n");
     }
 }
+
+void append_date_headers(Request * request, char * response){
+    struct tm tm;
+    struct stat sbuf;
+    time_t now;
+    char tbuf[100], dbuf[100];
+    stat(request->http_uri, &sbuf);
+    tm = *gmtime(&sbuf.st_mtime); //st_mtime: time of last data modification.
+
+    strftime(tbuf, 1000, "%a, %d %b %Y %H:%M:%S %Z", &tm);
+    sprintf(response, "%slast-modified: %s\r\n", response, tbuf);
+
+    now = time(0);
+    tm = *gmtime(&now);
+    strftime(dbuf, 100, "%a, %d %b %Y %H:%M:%S %Z", &tm);
+    sprintf(response, "%sdate: %s\r\n", response, dbuf);
+}
+
